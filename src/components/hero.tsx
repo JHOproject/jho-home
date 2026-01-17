@@ -78,8 +78,7 @@ export function Hero() {
                     </h1>
 
                     <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
-                        I take work seriously while still <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">enjoying life</span>;<br />
-                        I value continuous growth and appreciate the choices I make in each moment.
+                        Serious about my work, playful about  <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">life—always growing</span>, always choosing, always present.
                     </p>
 
                     <div className="flex flex-wrap gap-4 pt-4 justify-center items-center">
