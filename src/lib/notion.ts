@@ -1,4 +1,5 @@
 import { Client } from "@notionhq/client"
+import { NotionToMarkdown } from "notion-to-md"
 
 export interface Post {
     id: string
@@ -6,11 +7,14 @@ export interface Post {
     slug: string
     date: string
     description: string
+    content?: string // Markdown content
 }
 
 const notion = new Client({
     auth: process.env.NOTION_TOKEN,
 })
+
+const n2m = new NotionToMarkdown({ notionClient: notion })
 
 export async function getPosts(): Promise<Post[]> {
     if (!process.env.NOTION_TOKEN || !process.env.NOTION_DATABASE_ID) {
@@ -63,5 +67,27 @@ export async function getPosts(): Promise<Post[]> {
     } catch (error) {
         console.error("Error fetching posts from Notion:", error)
         return []
+    }
+}
+
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+    const posts = await getPosts()
+    const post = posts.find((p) => p.slug === slug)
+
+    if (!post) {
+        return null
+    }
+
+    try {
+        const mdblocks = await n2m.pageToMarkdown(post.id)
+        const mdString = n2m.toMarkdownString(mdblocks)
+
+        return {
+            ...post,
+            content: mdString.parent,
+        }
+    } catch (error) {
+        console.error("Error fetching post content:", error)
+        return null
     }
 }
