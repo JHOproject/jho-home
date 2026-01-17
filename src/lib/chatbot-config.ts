@@ -9,7 +9,7 @@ export const CHATBOT_CONFIG = {
    MOBILE_BREAKPOINT: 768,
 
    // AI Settings
-   MODEL: 'gemini-1.5-flash',
+   MODEL: 'gemini-flash-latest',
    MAX_TOKENS: 500,
    TEMPERATURE: 0.7,
 

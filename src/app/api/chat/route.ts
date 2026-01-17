@@ -14,12 +14,16 @@ export async function POST(req: Request) {
         const genAI = new GoogleGenerativeAI(apiKey)
 
         // Build conversation history (alternating user/model)
-        // Note: Gemini history MUST start with 'user' if NOT using systemInstruction
-        // But we ARE using systemInstruction, so history can start with 'model' if it's the assistant's first greeting.
+        // Gemini history MUST start with 'user' role.
+        // We filter out any leading 'model' messages (like the initial assistant greeting).
         const history = messages.slice(0, -1).map((msg: any) => ({
             role: msg.role === 'assistant' ? 'model' : 'user',
             parts: [{ text: msg.content }],
         }))
+
+        // Find the index of the first 'user' message
+        const firstUserIndex = history.findIndex((msg: any) => msg.role === 'user')
+        const formattedHistory = firstUserIndex !== -1 ? history.slice(firstUserIndex) : []
 
         // Verify history structure: it must be alternating. 
         // Our messages are: assistant (init), user (msg1), assistant (reply1), user (msg2)
@@ -34,7 +38,7 @@ export async function POST(req: Request) {
         })
 
         const chat = model.startChat({
-            history: history,
+            history: formattedHistory,
             generationConfig: {
                 maxOutputTokens: CHATBOT_CONFIG.MAX_TOKENS,
                 temperature: CHATBOT_CONFIG.TEMPERATURE,
