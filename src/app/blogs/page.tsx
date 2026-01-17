@@ -19,7 +19,7 @@ export default async function PostsPage() {
             <div className="space-y-2 animate-fade-in-up [animation-delay:200ms]">
                 {posts.map((post) => (
                     <Link
-                        href={`/posts/${post.slug}`}
+                        href={`/blogs/${post.slug}`}
                         key={post.id}
                         className="group flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-8 rounded-lg px-4 py-4 transition-colors hover:bg-secondary/50"
                     >
