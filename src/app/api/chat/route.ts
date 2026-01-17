@@ -30,10 +30,7 @@ export async function POST(req: Request) {
 
         const model = genAI.getGenerativeModel({
             model: CHATBOT_CONFIG.MODEL,
-            systemInstruction: {
-                role: 'system',
-                parts: [{ text: CHATBOT_CONFIG.SYSTEM_PROMPT }]
-            },
+            systemInstruction: CHATBOT_CONFIG.SYSTEM_PROMPT,
         })
 
         const chat = model.startChat({

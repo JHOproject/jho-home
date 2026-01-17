@@ -62,11 +62,11 @@ export function ChatbotWidget() {
                 }),
             })
 
-            if (!response.ok) {
-                throw new Error('Failed to get response')
-            }
-
             const data = await response.json()
+
+            if (!response.ok) {
+                throw new Error(data.details || data.error || 'Failed to get response')
+            }
 
             const assistantMessage: ChatMessage = {
                 id: (Date.now() + 1).toString(),
@@ -76,12 +76,12 @@ export function ChatbotWidget() {
             }
 
             setMessages(prev => [...prev, assistantMessage])
-        } catch (error) {
+        } catch (error: any) {
             console.error('Chat error:', error)
             const errorMessage: ChatMessage = {
                 id: (Date.now() + 1).toString(),
                 role: 'assistant',
-                content: "Oops! Something went wrong. Please try again later! 😅",
+                content: `Oops! Error: ${error.message} 😅`,
                 timestamp: Date.now(),
             }
             setMessages(prev => [...prev, errorMessage])
