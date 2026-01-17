@@ -45,7 +45,7 @@ export async function getPosts(): Promise<Post[]> {
                 const props = page.properties as any
 
                 const title = props.Name?.title?.[0]?.plain_text || "Untitled"
-                const slug = props.Slug?.rich_text?.[0]?.plain_text || ""
+                const slug = props.Slug?.rich_text?.[0]?.plain_text || page.id
                 const date = props.Date?.date?.start || new Date().toISOString()
                 const description = props.Description?.rich_text?.[0]?.plain_text || ""
 
