@@ -163,18 +163,70 @@ h6 {
   letter-spacing: -0.025em;
 }
 
-/* Typography overrides for Google-style code blocks */
+/* Typography Overrides */
+.prose {
+  /* Link prose colors to our theme variables for max contrast */
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--muted-foreground);
+  --tw-prose-links: var(--foreground);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-code: var(--primary);
+  --tw-prose-pre-code: var(--tw-prose-pre-code);
+  --tw-prose-pre-bg: var(--tw-prose-pre-bg);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+}
+
+.dark .prose {
+  /* Re-assert dark (just usually handled by dark:prose-invert but being explicit helps) */
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-links: var(--foreground);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-pre-code: var(--tw-prose-pre-code);
+  --tw-prose-pre-bg: var(--tw-prose-pre-bg);
+}
+
+/* Google-style Code Blocks - Strong Selectors */
 .prose pre {
-  background-color: var(--tw-prose-pre-bg);
-  color: var(--tw-prose-pre-code);
+  background-color: var(--tw-prose-pre-bg) !important;
+  color: var(--tw-prose-pre-code) !important;
   border: 1px solid var(--tw-prose-pre-border);
   border-radius: 8px;
   padding: 16px;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
   overflow-x: auto;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 
-.prose code {
-  font-family: var(--font-mono);
+/* Ensure code INSIDE pre doesn't get the inline-code styling */
+.prose pre code {
+  background-color: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-weight: normal !important;
+}
+
+/* Inline Code Style (Not inside pre) */
+.prose :not(pre)>code {
+  background-color: var(--secondary);
+  color: var(--primary);
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none !important;
 }

@@ -64,10 +64,9 @@ export default async function PostPage({ params }: PostPageProps) {
                 </h1>
             </header>
 
-            <div className="prose prose-neutral dark:prose-invert max-w-none 
+            <div className="prose dark:prose-invert max-w-none 
                 prose-headings:font-bold prose-headings:tracking-tight 
                 prose-a:font-medium prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary 
-                prose-code:text-primary prose-code:bg-secondary/50 prose-code:px-1 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
                 leading-relaxed">
                 <ReactMarkdown>{post.content || ""}</ReactMarkdown>
             </div>
