@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { MessageCircle, X, Send, Loader2, Mail } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 import { ChatMessage, CHATBOT_CONFIG } from '@/lib/chatbot-config'
 import { getRemainingMessages, incrementUsage, canSendMessage, getResetTimeString } from '@/lib/rate-limiter'
 
@@ -168,7 +169,11 @@ export function ChatbotWidget() {
                                         : 'bg-muted text-foreground'
                                         }`}
                                 >
-                                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                                    <div className={`text-sm prose dark:prose-invert prose-p:leading-relaxed prose-strong:font-bold prose-strong:text-inherit max-w-none`}>
+                                        <ReactMarkdown>
+                                            {message.content}
+                                        </ReactMarkdown>
+                                    </div>
                                 </div>
                             </div>
                         ))}
