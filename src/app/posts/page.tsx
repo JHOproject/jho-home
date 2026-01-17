@@ -1,54 +1,46 @@
-import Link from "next/link"
 import { getPosts } from "@/lib/notion"
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
 
-export const metadata = {
-    title: "Posts - Jessie Ho",
-    description: "Thoughts, tutorials, and insights on software engineering.",
-}
+export const revalidate = 3600 // Revalidate every hour
 
 export default async function PostsPage() {
     const posts = await getPosts()
 
     return (
-        <div className="container py-8 md:py-12 lg:py-24">
-            <div className="flex flex-col gap-4 mb-8">
-                <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
-                    Posts
-                </h1>
-                <p className="max-w-[750px] text-lg text-muted-foreground sm:text-l">
-                    Writing about technology, design, and my journey as a developer.
+        <div className="container mx-auto px-4 py-32 max-w-4xl">
+            <div className="mb-16 space-y-4 animate-fade-in-up">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">Writing</h1>
+                <p className="text-xl text-muted-foreground">
+                    Thoughts on software engineering, design, and building products.
                 </p>
             </div>
 
-            <div className="grid gap-6">
+            <div className="space-y-6 animate-fade-in-up [animation-delay:200ms]">
                 {posts.map((post) => (
-                    <article key={post.id} className="group relative rounded-lg border p-6 hover:bg-muted/50 transition-colors">
-                        <div className="flex flex-col justify-between space-y-4">
+                    <Link href={`/posts/${post.slug}`} key={post.id} className="block group">
+                        <article className="flex flex-col sm:flex-row gap-4 sm:items-baseline justify-between rounded-xl border bg-card p-6 shadow-sm transition-all hover:bg-accent/50 hover:border-accent-foreground/20">
                             <div className="space-y-2">
-                                <h2 className="text-2xl font-bold tracking-tight">
-                                    <Link href={`/posts/${post.slug}`} className="hover:underline"> {/* Note: detail pages not implemented in MVP scope */}
-                                        {post.title}
-                                    </Link>
+                                <h2 className="text-xl font-semibold tracking-tight group-hover:text-primary transition-colors">
+                                    {post.title}
                                 </h2>
-                                <p className="text-muted-foreground">
+                                <p className="text-muted-foreground leading-relaxed max-w-xl">
                                     {post.description}
                                 </p>
                             </div>
-                            <div className="flex items-center text-sm text-muted-foreground">
-                                <time dateTime={post.date}>
+
+                            <div className="flex items-center gap-4 shrink-0 text-sm text-muted-foreground">
+                                <time className="font-mono text-xs">
                                     {new Date(post.date).toLocaleDateString(undefined, {
-                                        year: "numeric",
-                                        month: "long",
-                                        day: "numeric",
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric'
                                     })}
                                 </time>
+                                <ArrowUpRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                             </div>
-                        </div>
-                        <Link href={`/posts/${post.slug}`} className="absolute inset-0">
-                            <span className="sr-only">View Article</span>
-                        </Link>
-                    </article>
+                        </article>
+                    </Link>
                 ))}
             </div>
         </div>

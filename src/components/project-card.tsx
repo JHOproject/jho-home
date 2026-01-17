@@ -1,51 +1,41 @@
-import Link from "next/link"
-import { Star, GitFork } from "lucide-react"
 import { Repo } from "@/lib/github"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-
-// Simple Card components if UI library not fully installed, 
-// using simple Tailwind for MVP to avoid shadcn setup overhead if I missed steps.
-// But I will create simplified versions inline or assume basic markup.
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import { Badge } from "./ui/badge"
+import { Star, Calendar } from "lucide-react"
+import Link from "next/link"
 
 export function ProjectCard({ repo }: { repo: Repo }) {
     return (
-        <div className="flex flex-col justify-between rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-shadow">
-            <div className="p-6">
-                <div className="flex items-center justify-between space-x-2">
-                    <h3 className="font-semibold leading-none tracking-tight truncate">
-                        <Link href={repo.html_url} target="_blank" className="hover:underline">
-                            {repo.name}
-                        </Link>
-                    </h3>
-                    {repo.language && (
-                        <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                            {repo.language}
-                        </span>
-                    )}
-                </div>
-                <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
-                    {repo.description || "No description provided."}
-                </p>
-            </div>
-            <div className="p-6 pt-0 flex items-center justify-between text-muted-foreground text-sm">
-                <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1">
-                        <Star className="h-3 w-3" />
-                        {repo.stargazers_count}
-                    </span>
-                </div>
-                <span className="text-xs">
-                    Updated {new Date(repo.updated_at).toLocaleDateString()}
-                </span>
-            </div>
-        </div>
+        <Link href={repo.html_url} target="_blank" className="block h-full group">
+            <Card className="h-full flex flex-col hover:border-primary/50 transition-colors duration-300">
+                <CardHeader>
+                    <div className="flex justify-between items-start gap-2">
+                        <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-1">{repo.name}</CardTitle>
+                        <div className="flex items-center text-muted-foreground transition-colors group-hover:text-foreground">
+                            <Star className="h-4 w-4 mr-1 fill-current" />
+                            <span className="text-xs">{repo.stargazers_count}</span>
+                        </div>
+                    </div>
+                    <CardDescription className="line-clamp-2 mt-2 leading-relaxed">
+                        {repo.description || "No description provided."}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="mt-auto">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <div className="flex items-center gap-2">
+                            {repo.language && (
+                                <Badge variant="secondary" className="font-mono font-normal">
+                                    {repo.language}
+                                </Badge>
+                            )}
+                        </div>
+                        <div className="flex items-center gap-1 opacity-70">
+                            <Calendar className="h-3 w-3" />
+                            <span>{new Date(repo.updated_at).getFullYear()}</span>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        </Link>
     )
 }

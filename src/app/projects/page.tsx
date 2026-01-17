@@ -1,35 +1,25 @@
 import { getRepos } from "@/lib/github"
 import { ProjectCard } from "@/components/project-card"
 
-export const metadata = {
-    title: "Projects - Jessie Ho",
-    description: "Recent open source projects and contributions.",
-}
+export const revalidate = 3600 // Revalidate every hour
 
-// Since this is static export, this runs at build time.
 export default async function ProjectsPage() {
     const repos = await getRepos()
 
     return (
-        <div className="container py-8 md:py-12 lg:py-24">
-            <div className="flex flex-col gap-4 mb-8">
-                <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:leading-[1.1]">
-                    Projects
-                </h1>
-                <p className="max-w-[750px] text-lg text-muted-foreground sm:text-l">
-                    Here are my latest 6 repositories from GitHub.
+        <div className="container mx-auto px-4 py-32 max-w-6xl">
+            <div className="mb-16 space-y-4 animate-fade-in-up">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">Projects</h1>
+                <p className="text-xl text-muted-foreground max-w-2xl">
+                    A collection of open source repositories and experiments.
                 </p>
             </div>
 
-            {repos.length === 0 ? (
-                <p className="text-muted-foreground">Unable to fetch projects at this time.</p>
-            ) : (
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {repos.map((repo) => (
-                        <ProjectCard key={repo.id} repo={repo} />
-                    ))}
-                </div>
-            )}
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up [animation-delay:200ms]">
+                {repos.map((repo) => (
+                    <ProjectCard key={repo.id} repo={repo} />
+                ))}
+            </div>
         </div>
     )
 }
