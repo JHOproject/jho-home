@@ -1,22 +1,15 @@
 import { CHATBOT_CONFIG, UsageData } from './chatbot-config'
 
-const getStorageKey = () => {
-    const today = new Date().toISOString().split('T')[0]
-    return `${CHATBOT_CONFIG.STORAGE_KEY_PREFIX}${today}`
-}
+const STORAGE_KEY = `${CHATBOT_CONFIG.STORAGE_KEY_PREFIX}v2`
 
-const getNextMidnight = (): number => {
-    const tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    tomorrow.setHours(0, 0, 0, 0)
-    return tomorrow.getTime()
+const getResetTime = (): number => {
+    return Date.now() + 24 * 60 * 60 * 1000
 }
 
 export const getRemainingMessages = (): number => {
     if (typeof window === 'undefined') return CHATBOT_CONFIG.MAX_MESSAGES_PER_DAY
 
-    const key = getStorageKey()
-    const stored = localStorage.getItem(key)
+    const stored = localStorage.getItem(STORAGE_KEY)
 
     if (!stored) {
         return CHATBOT_CONFIG.MAX_MESSAGES_PER_DAY
@@ -27,7 +20,7 @@ export const getRemainingMessages = (): number => {
 
         // Check if reset time has passed
         if (Date.now() > data.resetAt) {
-            localStorage.removeItem(key)
+            localStorage.removeItem(STORAGE_KEY)
             return CHATBOT_CONFIG.MAX_MESSAGES_PER_DAY
         }
 
@@ -43,19 +36,18 @@ export const incrementUsage = (): boolean => {
     const remaining = getRemainingMessages()
     if (remaining <= 0) return false
 
-    const key = getStorageKey()
-    const stored = localStorage.getItem(key)
+    const stored = localStorage.getItem(STORAGE_KEY)
 
     const data: UsageData = stored
         ? JSON.parse(stored)
         : {
             count: 0,
-            date: new Date().toISOString().split('T')[0],
-            resetAt: getNextMidnight(),
+            date: new Date().toISOString(),
+            resetAt: getResetTime(),
         }
 
     data.count += 1
-    localStorage.setItem(key, JSON.stringify(data))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 
     return true
 }
@@ -65,27 +57,30 @@ export const canSendMessage = (): boolean => {
 }
 
 export const getResetTimeString = (): string => {
-    if (typeof window === 'undefined') return 'tomorrow'
+    if (typeof window === 'undefined') return '24 hours'
 
-    const key = getStorageKey()
-    const stored = localStorage.getItem(key)
+    const stored = localStorage.getItem(STORAGE_KEY)
 
-    if (!stored) return 'tomorrow'
+    if (!stored) return '24 hours'
 
     try {
         const data: UsageData = JSON.parse(stored)
         const resetDate = new Date(data.resetAt)
         const now = new Date()
 
-        const hours = Math.floor((resetDate.getTime() - now.getTime()) / (1000 * 60 * 60))
+        const diffMs = resetDate.getTime() - now.getTime()
+
+        if (diffMs <= 0) return 'now'
+
+        const hours = Math.floor(diffMs / (1000 * 60 * 60))
+        const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60))
 
         if (hours < 1) {
-            const minutes = Math.floor((resetDate.getTime() - now.getTime()) / (1000 * 60))
             return `${minutes} minute${minutes !== 1 ? 's' : ''}`
         }
 
         return `${hours} hour${hours !== 1 ? 's' : ''}`
     } catch {
-        return 'tomorrow'
+        return '24 hours'
     }
 }
