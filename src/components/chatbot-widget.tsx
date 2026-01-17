@@ -169,7 +169,10 @@ export function ChatbotWidget() {
                                         : 'bg-muted text-foreground'
                                         }`}
                                 >
-                                    <div className="text-sm prose dark:prose-invert prose-p:my-0 prose-strong:font-bold prose-strong:text-inherit max-w-none">
+                                    <div className={`text-sm prose dark:prose-invert prose-p:my-0 prose-strong:font-bold max-w-none ${message.role === 'user'
+                                            ? '[--tw-prose-body:var(--primary-foreground)] [--tw-prose-bold:var(--primary-foreground)] text-primary-foreground'
+                                            : '[--tw-prose-body:var(--foreground)]'
+                                        }`}>
                                         <ReactMarkdown
                                             components={{
                                                 p: ({ children }) => <p className="inline">{children}</p>,
