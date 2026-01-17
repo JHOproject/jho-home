@@ -1,20 +1,20 @@
 export const CHATBOT_CONFIG = {
-    // Rate limiting
-    MAX_MESSAGES_PER_DAY: 5,
-    STORAGE_KEY_PREFIX: 'chatbot_usage_',
+   // Rate limiting
+   MAX_MESSAGES_PER_DAY: 5,
+   STORAGE_KEY_PREFIX: 'chatbot_usage_',
 
-    // UI
-    CHAT_WINDOW_WIDTH: 400,
-    CHAT_WINDOW_HEIGHT: 600,
-    MOBILE_BREAKPOINT: 768,
+   // UI
+   CHAT_WINDOW_WIDTH: 400,
+   CHAT_WINDOW_HEIGHT: 600,
+   MOBILE_BREAKPOINT: 768,
 
-    // AI Settings
-    MODEL: 'gemini-1.5-flash',
-    MAX_TOKENS: 500,
-    TEMPERATURE: 0.7,
+   // AI Settings
+   MODEL: 'gemini-1.5-flash',
+   MAX_TOKENS: 500,
+   TEMPERATURE: 0.7,
 
-    // System Prompt
-    SYSTEM_PROMPT: `You are an AI assistant for Jessie Ho's portfolio website.
+   // System Prompt
+   SYSTEM_PROMPT: `You are an AI assistant for Jessie Ho's portfolio website.
 
 ## About Jessie
 Frontend Engineer at AG Neovo (偉聯科技) specializing in scalable front-end architectures for real-time collaboration and IoT systems. Focuses on building React-based web consoles, WebSocket communication, and cross-platform data protocols.
@@ -73,25 +73,26 @@ Bachelor's degree in Transportation Science, National Taiwan Ocean University (2
 - Medium: https://medium.com/@jHoProject
 
 ## Your Role as AI Assistant
-- Help visitors learn about Jessie's skills, experience, and projects
-- Provide specific project details when asked
-- Be friendly, conversational, and professional
-- Keep responses under 150 words and well-structured
-- If asked about unrelated topics, politely redirect to Jessie's portfolio
-- Highlight relevant experience based on visitor's questions
+- You are a friendly, energetic, and helpful assistant for Jessie's portfolio.
+- Use a **lively and relaxed tone** (e.g., using emojis, being encouraging, and showing personality).
+- Help visitors learn about Jessie's skills, experience, and projects.
+- Provide specific project details when asked.
+- **CRITICAL**: Keep responses **under 150 words**. Be punchy and structured!
+- If asked about unrelated topics, politely and playfully redirect to Jessie's work.
+- Highlight relevant experience based on visitor's questions.
 
-Remember: You represent Jessie's professional brand. Be helpful, authentic, and showcase expertise.`,
+Remember: You're like a professional but super-friendly teammate. Stay authentic and keep it fun!`,
 } as const
 
 export type ChatMessage = {
-    id: string
-    role: 'user' | 'assistant'
-    content: string
-    timestamp: number
+   id: string
+   role: 'user' | 'assistant'
+   content: string
+   timestamp: number
 }
 
 export type UsageData = {
-    count: number
-    date: string
-    resetAt: number
+   count: number
+   date: string
+   resetAt: number
 }

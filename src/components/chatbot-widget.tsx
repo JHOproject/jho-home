@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Send, Loader2 } from 'lucide-react'
+import { MessageCircle, X, Send, Loader2, Mail } from 'lucide-react'
 import { ChatMessage, CHATBOT_CONFIG } from '@/lib/chatbot-config'
 import { getRemainingMessages, incrementUsage, canSendMessage, getResetTimeString } from '@/lib/rate-limiter'
 
@@ -11,7 +11,7 @@ export function ChatbotWidget() {
         {
             id: '1',
             role: 'assistant',
-            content: "Hi! I'm here to help you learn about Jessie's skills and experience. What would you like to know?",
+            content: "Hi! I'm here to help you learn about Jessie's skills and experience. What would you like to know? ✨",
             timestamp: Date.now(),
         }
     ])
@@ -81,7 +81,7 @@ export function ChatbotWidget() {
             const errorMessage: ChatMessage = {
                 id: (Date.now() + 1).toString(),
                 role: 'assistant',
-                content: "Sorry, I'm having trouble connecting right now. Please try again later.",
+                content: "Oops! Something went wrong. Please try again later! 😅",
                 timestamp: Date.now(),
             }
             setMessages(prev => [...prev, errorMessage])
@@ -123,19 +123,28 @@ export function ChatbotWidget() {
                                 <h3 className="font-semibold text-sm">Ask about Jessie</h3>
                                 <p className="text-xs text-muted-foreground">
                                     {remaining > 0
-                                        ? `${remaining} message${remaining !== 1 ? 's' : ''} remaining today`
+                                        ? `${remaining} chat${remaining !== 1 ? 's' : ''} left today ⚡`
                                         : `Resets in ${getResetTimeString()}`
                                     }
                                 </p>
                             </div>
                         </div>
-                        <button
-                            onClick={() => setIsOpen(false)}
-                            className="h-8 w-8 rounded-full hover:bg-muted transition-colors flex items-center justify-center"
-                            aria-label="Close chat"
-                        >
-                            <X className="h-4 w-4" />
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <a
+                                href="mailto:jho.project.work@gmail.com"
+                                className="h-8 w-8 rounded-full hover:bg-muted transition-colors flex items-center justify-center text-muted-foreground hover:text-primary"
+                                title="Send Email"
+                            >
+                                <Mail className="h-4 w-4" />
+                            </a>
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="h-8 w-8 rounded-full hover:bg-muted transition-colors flex items-center justify-center"
+                                aria-label="Close chat"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
+                        </div>
                     </div>
 
                     {/* Messages */}
