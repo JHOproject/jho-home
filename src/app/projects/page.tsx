@@ -15,7 +15,7 @@ export default async function ProjectsPage() {
                 </p>
             </div>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up [animation-delay:200ms]">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in-up [animation-delay:200ms]">
                 {repos.map((repo) => (
                     <ProjectCard key={repo.id} repo={repo} />
                 ))}
