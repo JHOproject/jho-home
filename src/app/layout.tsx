@@ -39,6 +39,7 @@ export const metadata: Metadata = {
 };
 
 import { Header } from "@/components/header";
+import { ChatbotWidget } from "@/components/chatbot-widget";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -63,6 +64,7 @@ export default function RootLayout({
             {children}
           </main>
         </ThemeProvider>
+        <ChatbotWidget />
       </body>
     </html>
   );
