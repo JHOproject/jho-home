@@ -11,13 +11,13 @@ export async function POST(req: Request) {
         }
 
         // 2. Prevent Overly Large Payloads (Security)
-        if (messages.length > 10) {
+        if (messages.length > 3) {
             return Response.json({ error: 'Conversation too long' }, { status: 400 })
         }
 
         const latestMessage = messages[messages.length - 1].content
-        if (latestMessage.length > 500) {
-            return Response.json({ error: 'Message too long (max 500 chars)' }, { status: 400 })
+        if (latestMessage.length > 50) {
+            return Response.json({ error: 'Message too long (max 50 chars)' }, { status: 400 })
         }
 
         const apiKey = process.env.GEMINI_API_KEY
