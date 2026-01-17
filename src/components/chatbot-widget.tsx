@@ -131,7 +131,7 @@ export function ChatbotWidget() {
                         </div>
                         <div className="flex items-center gap-2">
                             <a
-                                href="mailto:jho.project.work@gmail.com"
+                                href="mailto:jessieho1822@gmail.com"
                                 className="h-8 w-8 rounded-full hover:bg-muted transition-colors flex items-center justify-center text-muted-foreground hover:text-primary"
                                 title="Send Email"
                             >
