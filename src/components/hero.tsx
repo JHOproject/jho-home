@@ -78,17 +78,6 @@ export function Hero() {
                     </h1>
 
                     <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
-                        I specialize in developing <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">scalable front-end architectures</span> for <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">real-time collaboration</span> and <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">IoT systems</span>.
-                        My work focuses on building{" "}
-                        <Link href="https://react.dev" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
-                            React
-                        </Link>{" "}
-                        web consoles and integrating cross-platform data protocols using{" "}
-                        <Link href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
-                            WebSocket
-                        </Link>{" "}
-                        to deliver production-grade solutions.
-
                         I’m someone who takes work seriously while still  <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">enjoying life</span>. I value continuous growth, and I appreciate the choices I make in each moment.
                     </p>
 
