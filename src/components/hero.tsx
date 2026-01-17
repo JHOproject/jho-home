@@ -6,8 +6,8 @@ export function Hero() {
     return (
         <section className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20">
             <div className="container mx-auto max-w-4xl">
-                <div className="animate-fade-in-up space-y-8">
-                    <div className="relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-muted">
+                <div className="animate-fade-in-up space-y-8 flex flex-col items-center text-center">
+                    <div className="relative h-24 w-24 overflow-hidden rounded-full ring-2 ring-muted">
                         <Image
                             src="https://github.com/JHOproject.png"
                             alt="Jessie Ho"
@@ -17,17 +17,25 @@ export function Hero() {
                         />
                     </div>
 
-                    <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
-                        Software <br className="hidden sm:block" />
-                        Engineer.
+                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl max-w-3xl">
+                        Hi, I&apos;m Jessie. <br />
+                        I build <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm">digital products</span> that matter.
                     </h1>
 
-                    <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
-                        I build accessible, pixel-perfect, and performant web experiences.
-                        Currently crafting digital products with Next.js and Tailwind.
+                    <p className="max-w-[700px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
+                        I am a <span className="font-medium text-foreground">Software Engineer</span> focused on creating
+                        <span className="italic"> accessible</span> and <span className="italic">pixel-perfect</span> web experiences.
+                        Currently working with{" "}
+                        <Link href="https://nextjs.org" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
+                            Next.js
+                        </Link>{" "}
+                        and{" "}
+                        <Link href="https://tailwindcss.com" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
+                            Tailwind CSS
+                        </Link>.
                     </p>
 
-                    <div className="flex flex-wrap gap-4 pt-4 items-center">
+                    <div className="flex flex-wrap gap-4 pt-4 justify-center items-center">
                         <Link
                             href="/projects"
                             className="group inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
