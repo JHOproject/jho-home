@@ -42,29 +42,33 @@ export default async function PostPage({ params }: PostPageProps) {
     }
 
     return (
-        <article className="container max-w-3xl py-8 md:py-12 lg:py-24">
+        <article className="container mx-auto max-w-2xl py-12 md:py-20 px-4">
             <Link
                 href="/posts"
-                className="mb-8 inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="group mb-8 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-                <ChevronLeft className="mr-2 h-4 w-4" />
-                Back to Posts
+                <ChevronLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                Back to posts
             </Link>
 
-            <div className="space-y-4 text-center mb-10">
-                <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-4xl lg:text-5xl">
-                    {post.title}
-                </h1>
-                <time className="text-muted-foreground block text-sm sm:text-base">
+            <header className="mb-10 text-center space-y-4">
+                <time className="block text-sm text-muted-foreground font-mono">
                     {new Date(post.date).toLocaleDateString(undefined, {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                     })}
                 </time>
-            </div>
+                <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl text-foreground">
+                    {post.title}
+                </h1>
+            </header>
 
-            <div className="prose prose-gray max-w-none dark:prose-invert prose-headings:scroll-m-20 prose-headings:font-semibold prose-a:font-medium prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary">
+            <div className="prose prose-neutral dark:prose-invert max-w-none 
+                prose-headings:font-bold prose-headings:tracking-tight 
+                prose-a:font-medium prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary 
+                prose-code:text-primary prose-code:bg-secondary/50 prose-code:px-1 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
+                leading-relaxed">
                 <ReactMarkdown>{post.content || ""}</ReactMarkdown>
             </div>
         </article>
