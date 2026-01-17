@@ -1,3 +1,5 @@
+import { Client } from "@notionhq/client"
+
 export interface Post {
     id: string
     title: string
@@ -6,38 +8,60 @@ export interface Post {
     description: string
 }
 
+const notion = new Client({
+    auth: process.env.NOTION_TOKEN,
+})
+
 export async function getPosts(): Promise<Post[]> {
-    // In a real application, we would use the Notion Client SDK here.
-    // const notion = new Client({ auth: process.env.NOTION_TOKEN })
-    // ... fetch database ...
+    if (!process.env.NOTION_TOKEN || !process.env.NOTION_DATABASE_ID) {
+        console.warn("Missing NOTION_TOKEN or NOTION_DATABASE_ID")
+        return []
+    }
 
-    // For MVP without credentials, returning mock data.
-    const mockPosts: Post[] = [
-        {
-            id: "1",
-            title: "Building a Personal Website with Next.js",
-            slug: "building-personal-website",
-            date: "2023-10-27",
-            description: "How I built this website using Next.js, Tailwind CSS, and GitHub Pages.",
-        },
-        {
-            id: "2",
-            title: "The Power of Static Site Generation",
-            slug: "power-of-ssg",
-            date: "2023-11-15",
-            description: "Why static exports are great for personal sites and documentation.",
-        },
-        {
-            id: "3",
-            title: "Mastering Tailwind CSS v4",
-            slug: "mastering-tailwind-v4",
-            date: "2024-01-10",
-            description: "Exploring the new features and configuration of Tailwind CSS v4.",
-        }
-    ]
+    try {
+        const response = await notion.databases.query({
+            database_id: process.env.NOTION_DATABASE_ID,
+            sorts: [
+                {
+                    property: "Date",
+                    direction: "descending",
+                },
+            ],
+            filter: {
+                property: "Published",
+                checkbox: {
+                    equals: true,
+                },
+            },
+        })
 
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 500))
+        const posts = response.results
+            .map((page) => {
+                // Simple type guard: check if 'properties' exists on the page object
+                if (!("properties" in page)) {
+                    return null
+                }
 
-    return mockPosts
+                const props = page.properties as any
+
+                const title = props.Name?.title?.[0]?.plain_text || "Untitled"
+                const slug = props.Slug?.rich_text?.[0]?.plain_text || ""
+                const date = props.Date?.date?.start || new Date().toISOString()
+                const description = props.Description?.rich_text?.[0]?.plain_text || ""
+
+                return {
+                    id: page.id,
+                    title,
+                    slug,
+                    date,
+                    description,
+                }
+            })
+            .filter((post): post is Post => post !== null)
+
+        return posts
+    } catch (error) {
+        console.error("Error fetching posts from Notion:", error)
+        return []
+    }
 }
