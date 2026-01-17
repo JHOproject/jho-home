@@ -44,11 +44,11 @@ export default async function PostPage({ params }: PostPageProps) {
     return (
         <article className="container mx-auto max-w-2xl py-12 md:py-20 px-4">
             <Link
-                href="/posts"
+                href="/blogs"
                 className="group mb-8 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
                 <ChevronLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                Back to posts
+                Back to blogs
             </Link>
 
             <header className="mb-10 text-center space-y-4">

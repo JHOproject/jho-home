@@ -13,6 +13,11 @@
   --popover: #ffffff;
   --popover-foreground: #050505;
 
+  /* Custom Prose Styling - Google Style Code Blocks */
+  --tw-prose-pre-bg: #f5f5f5;
+  --tw-prose-pre-code: #202124;
+  --tw-prose-pre-border: #e0e0e0;
+
   --primary: #171717;
   --primary-foreground: #fafafa;
 
@@ -43,9 +48,12 @@
   --chart-5: #767b82;
 }
 
-
-
 .dark {
+  /* Dark Mode Code Blocks */
+  --tw-prose-pre-bg: #202124;
+  --tw-prose-pre-code: #e8eaed;
+  --tw-prose-pre-border: #3c4043;
+
   --background: #000000;
   --foreground: #ededed;
   --card: #0a0a0a;
@@ -153,4 +161,20 @@ h4,
 h5,
 h6 {
   letter-spacing: -0.025em;
+}
+
+/* Typography overrides for Google-style code blocks */
+.prose pre {
+  background-color: var(--tw-prose-pre-bg);
+  color: var(--tw-prose-pre-code);
+  border: 1px solid var(--tw-prose-pre-border);
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.prose code {
+  font-family: var(--font-mono);
 }

@@ -7,7 +7,7 @@ export default async function ProjectsPage() {
     const repos = await getRepos()
 
     return (
-        <div className="container mx-auto px-4 py-32 max-w-6xl">
+        <div className="container mx-auto px-4 py-32 max-w-4xl">
             <div className="mb-16 space-y-4 animate-fade-in-up">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">Projects</h1>
                 <p className="text-xl text-muted-foreground max-w-2xl">
