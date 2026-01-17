@@ -1,12 +1,23 @@
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import Image from "next/image"
+import { ArrowRight, Github, Linkedin } from "lucide-react"
 
 export function Hero() {
     return (
         <section className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20">
-            <div className="container mx-auto max-w-5xl">
+            <div className="container mx-auto max-w-4xl">
                 <div className="animate-fade-in-up space-y-8">
-                    <h1 className="text-6xl font-bold tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl">
+                    <div className="relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-muted">
+                        <Image
+                            src="https://github.com/JHOproject.png"
+                            alt="Jessie Ho"
+                            fill
+                            className="object-cover"
+                            priority
+                        />
+                    </div>
+
+                    <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
                         Software <br className="hidden sm:block" />
                         Engineer.
                     </h1>
@@ -16,7 +27,7 @@ export function Hero() {
                         Currently crafting digital products with Next.js and Tailwind.
                     </p>
 
-                    <div className="flex flex-wrap gap-4 pt-4">
+                    <div className="flex flex-wrap gap-4 pt-4 items-center">
                         <Link
                             href="/projects"
                             className="group inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
@@ -24,12 +35,25 @@ export function Hero() {
                             View Projects
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Link>
-                        <Link
-                            href="/posts"
-                            className="inline-flex h-12 items-center justify-center rounded-full border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                        >
-                            Read Blog
-                        </Link>
+
+                        <div className="flex items-center gap-4 ml-2">
+                            <Link
+                                href="https://github.com/JHOproject"
+                                target="_blank"
+                                className="text-muted-foreground hover:text-foreground transition-colors p-2"
+                                aria-label="GitHub"
+                            >
+                                <Github className="h-6 w-6" />
+                            </Link>
+                            <Link
+                                href="https://linkedin.com/in/jessieho"
+                                target="_blank"
+                                className="text-muted-foreground hover:text-foreground transition-colors p-2"
+                                aria-label="LinkedIn"
+                            >
+                                <Linkedin className="h-6 w-6" />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
