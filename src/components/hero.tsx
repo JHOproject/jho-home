@@ -41,17 +41,16 @@ export function Hero() {
 
                     {/* Refined Text with Javi Velasco Style */}
                     <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
-                        I build <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">accessible</span>,{" "}
-                        <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">pixel-perfect</span>, and{" "}
-                        <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">performant</span> web experiences.
-                        Currently crafting digital products with{" "}
-                        <Link href="https://nextjs.org" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
-                            Next.js
+                        I specialize in developing <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">scalable front-end architectures</span> for <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">real-time collaboration</span> and <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">IoT systems</span>.
+                        My work focuses on building{" "}
+                        <Link href="https://react.dev" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
+                            React
                         </Link>{" "}
-                        and{" "}
-                        <Link href="https://tailwindcss.com" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
-                            Tailwind
-                        </Link>.
+                        web consoles and integrating cross-platform data protocols using{" "}
+                        <Link href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" target="_blank" className="font-medium text-foreground underline decoration-muted-foreground/50 underline-offset-4 transition-colors hover:decoration-foreground hover:text-foreground">
+                            WebSocket
+                        </Link>{" "}
+                        to deliver production-grade solutions.
                     </p>
 
                     {/* Actions & Socials */}
