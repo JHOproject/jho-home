@@ -1,8 +1,11 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Github, Linkedin } from "lucide-react"
+import { ArrowRight, Github, Linkedin, MousePointer2 } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
 
-// Simple Medium Icon SVG (since likely missing from Lucide)
+// Simple Medium Icon SVG
 const MediumIcon = ({ className }: { className?: string }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -16,9 +19,50 @@ const MediumIcon = ({ className }: { className?: string }) => (
 )
 
 export function Hero() {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+    const sectionRef = useRef<HTMLElement>(null)
+
+    useEffect(() => {
+        const updateMousePosition = (ev: MouseEvent) => {
+            if (!sectionRef.current) return
+            const rect = sectionRef.current.getBoundingClientRect()
+            setMousePosition({
+                x: ev.clientX - rect.left,
+                y: ev.clientY - rect.top,
+            })
+        }
+
+        const section = sectionRef.current
+        if (section) {
+            section.addEventListener("mousemove", updateMousePosition)
+        }
+
+        return () => {
+            if (section) {
+                section.removeEventListener("mousemove", updateMousePosition)
+            }
+        }
+    }, [])
+
     return (
-        <section className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20">
-            <div className="container mx-auto max-w-4xl">
+        <section
+            ref={sectionRef}
+            className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20 overflow-hidden"
+        >
+            {/* Interactive Background */}
+            <div
+                className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"
+                style={{
+                    maskImage: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
+                    WebkitMaskImage: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
+                }}
+            ></div>
+
+            {/* Subtle always-visible base grid (faint) */}
+            <div className="absolute inset-0 -z-20 h-full w-full bg-[linear-gradient(to_right,#80808005_1px,transparent_1px),linear-gradient(to_bottom,#80808005_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+
+
+            <div className="container mx-auto max-w-4xl z-10">
                 {/* Centered Layout Wrapper */}
                 <div className="animate-fade-in-up space-y-8 flex flex-col items-center text-center">
 
@@ -33,13 +77,13 @@ export function Hero() {
                         />
                     </div>
 
-                    {/* Reverted Title Structure */}
+                    {/* Title Structure */}
                     <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
                         Software <br className="hidden sm:block" />
                         Engineer.
                     </h1>
 
-                    {/* Refined Text with Javi Velasco Style */}
+                    {/* Bio Text */}
                     <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
                         I specialize in developing <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">scalable front-end architectures</span> for <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">real-time collaboration</span> and <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">IoT systems</span>.
                         My work focuses on building{" "}
@@ -73,7 +117,7 @@ export function Hero() {
                                 <Github className="h-6 w-6" />
                             </Link>
                             <Link
-                                href="https://linkedin.com/in/jessieho"
+                                href="https://www.linkedin.com/in/yu-chi-ho-1925b3184"
                                 target="_blank"
                                 className="text-muted-foreground hover:text-foreground transition-colors p-2"
                                 aria-label="LinkedIn"
@@ -92,9 +136,6 @@ export function Hero() {
                     </div>
                 </div>
             </div>
-
-            {/* Background decoration */}
-            <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
         </section>
     )
 }
