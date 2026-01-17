@@ -41,42 +41,61 @@
   --chart-5: #767b82;
 }
 
+/* Support both system preference and manual toggle via class */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #000000;
     --foreground: #ededed;
-
     --card: #0a0a0a;
     --card-foreground: #ededed;
-
     --popover: #0a0a0a;
     --popover-foreground: #ededed;
-
     --primary: #ededed;
     --primary-foreground: #000000;
-
     --secondary: #1a1a1a;
     --secondary-foreground: #ededed;
-
     --muted: #1a1a1a;
     --muted-foreground: #a3a3a3;
-
     --accent: #1a1a1a;
     --accent-foreground: #ededed;
-
     --destructive: #991b1b;
     --destructive-foreground: #fafafa;
-
     --border: #262626;
     --input: #262626;
     --ring: #d4d4d4;
-
     --chart-1: #2200cc;
     --chart-2: #282a2f;
     --chart-3: #1a1a1a;
     --chart-4: #404040;
     --chart-5: #525252;
   }
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ededed;
+  --card: #0a0a0a;
+  --card-foreground: #ededed;
+  --popover: #0a0a0a;
+  --popover-foreground: #ededed;
+  --primary: #ededed;
+  --primary-foreground: #000000;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ededed;
+  --muted: #1a1a1a;
+  --muted-foreground: #a3a3a3;
+  --accent: #1a1a1a;
+  --accent-foreground: #ededed;
+  --destructive: #991b1b;
+  --destructive-foreground: #fafafa;
+  --border: #262626;
+  --input: #262626;
+  --ring: #d4d4d4;
+  --chart-1: #2200cc;
+  --chart-2: #282a2f;
+  --chart-3: #1a1a1a;
+  --chart-4: #404040;
+  --chart-5: #525252;
 }
 
 @theme inline {
