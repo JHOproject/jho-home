@@ -2,8 +2,8 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Github, Linkedin, MousePointer2 } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import { ArrowRight, Github, Linkedin } from "lucide-react"
+import { useState } from "react"
 
 // Simple Medium Icon SVG
 const MediumIcon = ({ className }: { className?: string }) => (
@@ -20,46 +20,43 @@ const MediumIcon = ({ className }: { className?: string }) => (
 
 export function Hero() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-    const sectionRef = useRef<HTMLElement>(null)
 
-    useEffect(() => {
-        const updateMousePosition = (ev: MouseEvent) => {
-            if (!sectionRef.current) return
-            const rect = sectionRef.current.getBoundingClientRect()
-            setMousePosition({
-                x: ev.clientX - rect.left,
-                y: ev.clientY - rect.top,
-            })
-        }
-
-        const section = sectionRef.current
-        if (section) {
-            section.addEventListener("mousemove", updateMousePosition)
-        }
-
-        return () => {
-            if (section) {
-                section.removeEventListener("mousemove", updateMousePosition)
-            }
-        }
-    }, [])
+    const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        setMousePosition({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+        })
+    }
 
     return (
         <section
-            ref={sectionRef}
-            className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20 overflow-hidden"
+            onMouseMove={handleMouseMove}
+            className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20 overflow-hidden group"
         >
-            {/* Interactive Background */}
+            {/* Interactive Spotlight Grid */}
             <div
-                className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"
+                className="absolute inset-0 -z-10 h-full w-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{
-                    maskImage: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
-                    WebkitMaskImage: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
+                    background: `
+                        radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(100,100,100,0.15), transparent 40%)
+                    `,
+                }}
+            >
+                {/* This creates a glow effect. Below is the sharp grid reveal. */}
+            </div>
+
+            {/* The Reveal Grid */}
+            <div
+                className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]"
+                style={{
+                    maskImage: `radial-gradient(300px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
+                    WebkitMaskImage: `radial-gradient(300px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
                 }}
             ></div>
 
-            {/* Subtle always-visible base grid (faint) */}
-            <div className="absolute inset-0 -z-20 h-full w-full bg-[linear-gradient(to_right,#80808005_1px,transparent_1px),linear-gradient(to_bottom,#80808005_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+            {/* Subtle always-visible base grid */}
+            <div className="absolute inset-0 -z-20 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
 
             <div className="container mx-auto max-w-4xl z-10">
