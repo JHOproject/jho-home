@@ -60,7 +60,7 @@ export function ChatbotWidget() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    messages: [...messages, userMessage].slice(-3), // Respect history limit client-side too
+                    messages: [...messages, userMessage].slice(-10), // Respect history limit client-side too
                 }),
             })
 

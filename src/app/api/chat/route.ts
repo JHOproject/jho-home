@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         }
 
         // 2. Prevent Overly Large Payloads (Security)
-        if (messages.length > 3) {
+        if (messages.length > 10) {
             return Response.json({ error: 'Conversation too long' }, { status: 400 })
         }
 
