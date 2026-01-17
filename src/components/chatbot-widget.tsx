@@ -60,21 +60,33 @@ export function ChatbotWidget() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    messages: [...messages, userMessage],
+                    messages: [...messages, userMessage].slice(-3), // Respect history limit client-side too
                 }),
             })
 
             const contentType = response.headers.get("content-type");
             if (!contentType || !contentType.includes("application/json")) {
-                const text = await response.text();
-                console.error("Non-JSON response received:", text);
-                throw new Error("Server returned non-JSON response. Please check if the API route is configured correctly.");
+                const assistantMessage: ChatMessage = {
+                    id: (Date.now() + 1).toString(),
+                    role: 'assistant',
+                    content: "Oops! The server returned an invalid response. Please try again later! 😅",
+                    timestamp: Date.now(),
+                }
+                setMessages(prev => [...prev, assistantMessage])
+                return;
             }
 
             const data = await response.json()
 
             if (!response.ok) {
-                throw new Error(data.details || data.error || 'Failed to get response')
+                const assistantMessage: ChatMessage = {
+                    id: (Date.now() + 1).toString(),
+                    role: 'assistant',
+                    content: `Oops! ${data.error || 'Something went wrong.'} 😅`,
+                    timestamp: Date.now(),
+                }
+                setMessages(prev => [...prev, assistantMessage])
+                return;
             }
 
             const assistantMessage: ChatMessage = {
@@ -86,11 +98,12 @@ export function ChatbotWidget() {
 
             setMessages(prev => [...prev, assistantMessage])
         } catch (error: any) {
-            console.error('Chat error:', error)
+            // Use console.log instead of console.error to avoid dev overlay if needed, 
+            // but here we just show a generic message to the user.
             const errorMessage: ChatMessage = {
                 id: (Date.now() + 1).toString(),
                 role: 'assistant',
-                content: `Oops! Error: ${error.message} 😅`,
+                content: "Oops! Connection error. Please check your network! 😅",
                 timestamp: Date.now(),
             }
             setMessages(prev => [...prev, errorMessage])
@@ -170,8 +183,8 @@ export function ChatbotWidget() {
                                         }`}
                                 >
                                     <div className={`text-sm prose dark:prose-invert prose-p:my-0 prose-strong:font-bold max-w-none ${message.role === 'user'
-                                            ? '[--tw-prose-body:var(--primary-foreground)] [--tw-prose-bold:var(--primary-foreground)] text-primary-foreground'
-                                            : '[--tw-prose-body:var(--foreground)]'
+                                        ? '[--tw-prose-body:var(--primary-foreground)] [--tw-prose-bold:var(--primary-foreground)] text-primary-foreground'
+                                        : '[--tw-prose-body:var(--foreground)]'
                                         }`}>
                                         <ReactMarkdown
                                             components={{
@@ -198,20 +211,26 @@ export function ChatbotWidget() {
                     <div className="p-4 border-t border-border">
                         {remaining > 0 ? (
                             <div className="flex gap-2">
-                                <input
-                                    ref={inputRef}
-                                    type="text"
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyPress={handleKeyPress}
-                                    placeholder="Ask me anything..."
-                                    disabled={isLoading}
-                                    className="flex-1 px-4 py-2 text-sm bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50"
-                                />
+                                <div className="flex flex-col flex-1 gap-1">
+                                    <input
+                                        ref={inputRef}
+                                        type="text"
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        onKeyPress={handleKeyPress}
+                                        placeholder="Ask me anything..."
+                                        disabled={isLoading}
+                                        className={`flex-1 px-4 py-2 text-sm bg-muted border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50 ${input.length > 50 ? 'border-destructive focus:ring-destructive text-destructive' : 'border-border'
+                                            }`}
+                                    />
+                                    <div className={`text-[10px] text-right ${input.length > 50 ? 'text-destructive font-semibold' : 'text-muted-foreground'}`}>
+                                        {input.length}/50
+                                    </div>
+                                </div>
                                 <button
                                     onClick={handleSend}
-                                    disabled={!input.trim() || isLoading}
-                                    className="h-10 w-10 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+                                    disabled={!input.trim() || isLoading || input.length > 50}
+                                    className="h-10 w-10 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center shrink-0"
                                     aria-label="Send message"
                                 >
                                     <Send className="h-4 w-4" />
