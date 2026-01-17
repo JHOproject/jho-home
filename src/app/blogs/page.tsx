@@ -10,7 +10,7 @@ export default async function PostsPage() {
     const isEmpty = !posts || posts.length === 0
 
     return (
-        <div className="container mx-auto px-4 py-32 max-w-4xl min-h-[80vh]">
+        <div className="container mx-auto px-6 py-32 max-w-4xl min-h-[80vh]">
             <div className="mb-16 space-y-4 animate-fade-in-up">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">Writing</h1>
                 <p className="text-xl text-muted-foreground">
