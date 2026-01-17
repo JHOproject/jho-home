@@ -7,50 +7,50 @@ export async function POST(req: Request) {
         const apiKey = process.env.GEMINI_API_KEY
 
         if (!apiKey) {
-            console.error('GEN_AI_ERROR: GEMINI_API_KEY is missing in environment variables')
-            return Response.json(
-                { error: 'API key not configured' },
-                { status: 500 }
-            )
-        }
-
-        if (!messages || !Array.isArray(messages) || messages.length === 0) {
-            return Response.json(
-                { error: 'Invalid messages format' },
-                { status: 400 }
-            )
+            console.error('CHAT_API: GEMINI_API_KEY is missing!')
+            return Response.json({ error: 'API key not configured' }, { status: 500 })
         }
 
         const genAI = new GoogleGenerativeAI(apiKey)
 
-        // Initialize the model with system instructions
+        // Build conversation history (alternating user/model)
+        // Note: Gemini history MUST start with 'user' if NOT using systemInstruction
+        // But we ARE using systemInstruction, so history can start with 'model' if it's the assistant's first greeting.
+        const history = messages.slice(0, -1).map((msg: any) => ({
+            role: msg.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: msg.content }],
+        }))
+
+        // Verify history structure: it must be alternating. 
+        // Our messages are: assistant (init), user (msg1), assistant (reply1), user (msg2)
+        // slice(0, -1) -> assistant, user, assistant
+        // roles -> model, user, model
+        // Last message will be 'user' (the current request)
+        // This is perfectly alternating.
+
         const model = genAI.getGenerativeModel({
             model: CHATBOT_CONFIG.MODEL,
-            systemInstruction: CHATBOT_CONFIG.SYSTEM_PROMPT,
+            systemInstruction: {
+                role: 'system',
+                parts: [{ text: CHATBOT_CONFIG.SYSTEM_PROMPT }]
+            },
+        })
+
+        const chat = model.startChat({
+            history: history,
             generationConfig: {
                 maxOutputTokens: CHATBOT_CONFIG.MAX_TOKENS,
                 temperature: CHATBOT_CONFIG.TEMPERATURE,
             },
         })
 
-        // Build conversation history (excluding the new message)
-        const history = messages.slice(0, -1).map((msg: any) => ({
-            role: msg.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: msg.content }],
-        }))
-
-        // Start chat
-        const chat = model.startChat({
-            history: history,
-        })
-
-        // Get the latest user message
         const userMessage = messages[messages.length - 1].content
 
-        // Send message and get response
+        console.log('CHAT_API: Sending message to Gemini...')
         const result = await chat.sendMessage(userMessage)
-        const response = result.response
+        const response = await result.response
         const text = response.text()
+        console.log('CHAT_API: Successfully received response from Gemini.')
 
         return Response.json({
             message: text,
