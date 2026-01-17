@@ -169,8 +169,12 @@ export function ChatbotWidget() {
                                         : 'bg-muted text-foreground'
                                         }`}
                                 >
-                                    <div className={`text-sm prose dark:prose-invert prose-p:leading-relaxed prose-strong:font-bold prose-strong:text-inherit max-w-none`}>
-                                        <ReactMarkdown>
+                                    <div className="text-sm prose dark:prose-invert prose-p:my-0 prose-strong:font-bold prose-strong:text-inherit max-w-none">
+                                        <ReactMarkdown
+                                            components={{
+                                                p: ({ children }) => <p className="inline">{children}</p>,
+                                            }}
+                                        >
                                             {message.content}
                                         </ReactMarkdown>
                                     </div>
