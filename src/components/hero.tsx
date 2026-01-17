@@ -41,7 +41,17 @@ export function Hero() {
                 <div
                     className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-300"
                     style={{
-                        background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.05), transparent 80%)`
+                        background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 0, 0, 0.03), transparent 80%)`
+                    }}
+                />
+            )}
+
+            {/* Dark mode spotlight - lighter color */}
+            {isHovering && (
+                <div
+                    className="dark:block hidden fixed inset-0 pointer-events-none z-0 transition-opacity duration-300"
+                    style={{
+                        background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.02), transparent 80%)`
                     }}
                 />
             )}
@@ -78,6 +88,8 @@ export function Hero() {
                             WebSocket
                         </Link>{" "}
                         to deliver production-grade solutions.
+
+                        I’m someone who takes work seriously while still  <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">enjoying life</span>. I value continuous growth, and I appreciate the choices I make in each moment.
                     </p>
 
                     <div className="flex flex-wrap gap-4 pt-4 justify-center items-center">
