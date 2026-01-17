@@ -3,9 +3,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Github, Linkedin } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-// Simple Medium Icon SVG
 const MediumIcon = ({ className }: { className?: string }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -19,51 +18,40 @@ const MediumIcon = ({ className }: { className?: string }) => (
 )
 
 export function Hero() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+    const [isHovering, setIsHovering] = useState(false)
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-        const rect = e.currentTarget.getBoundingClientRect()
-        setMousePosition({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-        })
-    }
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePos({ x: e.clientX, y: e.clientY })
+        }
+
+        window.addEventListener('mousemove', handleMouseMove)
+        return () => window.removeEventListener('mousemove', handleMouseMove)
+    }, [])
 
     return (
         <section
-            onMouseMove={handleMouseMove}
-            className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20 overflow-hidden group"
+            className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20 overflow-hidden"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
         >
-            {/* Interactive Spotlight Grid */}
-            <div
-                className="absolute inset-0 -z-10 h-full w-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{
-                    background: `
-                        radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(100,100,100,0.15), transparent 40%)
-                    `,
-                }}
-            >
-                {/* This creates a glow effect. Below is the sharp grid reveal. */}
-            </div>
+            {/* Spotlight effect - simple radial gradient that follows mouse */}
+            {isHovering && (
+                <div
+                    className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-300"
+                    style={{
+                        background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.05), transparent 80%)`
+                    }}
+                />
+            )}
 
-            {/* The Reveal Grid */}
-            <div
-                className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]"
-                style={{
-                    maskImage: `radial-gradient(300px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
-                    WebkitMaskImage: `radial-gradient(300px circle at ${mousePosition.x}px ${mousePosition.y}px, black, transparent)`,
-                }}
-            ></div>
+            {/* Static grid background */}
+            <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
 
-            {/* Subtle always-visible base grid */}
-            <div className="absolute inset-0 -z-20 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-
-
-            <div className="container mx-auto max-w-4xl z-10">
-                {/* Centered Layout Wrapper */}
+            <div className="container mx-auto max-w-4xl relative z-10">
                 <div className="animate-fade-in-up space-y-8 flex flex-col items-center text-center">
 
-                    {/* Avatar */}
                     <div className="relative h-20 w-20 overflow-hidden rounded-full ring-2 ring-muted">
                         <Image
                             src="https://github.com/JHOproject.png"
@@ -74,13 +62,11 @@ export function Hero() {
                         />
                     </div>
 
-                    {/* Title Structure */}
                     <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
                         Software <br className="hidden sm:block" />
                         Engineer.
                     </h1>
 
-                    {/* Bio Text */}
                     <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
                         I specialize in developing <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">scalable front-end architectures</span> for <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">real-time collaboration</span> and <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">IoT systems</span>.
                         My work focuses on building{" "}
@@ -94,7 +80,6 @@ export function Hero() {
                         to deliver production-grade solutions.
                     </p>
 
-                    {/* Actions & Socials */}
                     <div className="flex flex-wrap gap-4 pt-4 justify-center items-center">
                         <Link
                             href="/projects"
