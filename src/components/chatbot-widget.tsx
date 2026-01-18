@@ -47,6 +47,17 @@ export function ChatbotWidget() {
         }
 
         setMessages(prev => [...prev, userMessage])
+
+        // Track chat_try event on first message (initial messages length is 1)
+        if (messages.length === 1) {
+            if (typeof window !== 'undefined' && (window as any).gtag) {
+                (window as any).gtag('event', 'chat_try', {
+                    event_name: 'chat_try',
+                    is_logged_in: false
+                });
+            }
+        }
+
         setInput('')
         setIsLoading(true)
 

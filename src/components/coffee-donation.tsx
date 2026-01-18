@@ -11,9 +11,13 @@ export function CoffeeDonation() {
         { label: "$10", value: "10" },
     ]
 
-    const handleDonationClick = () => {
+    const handleDonationClick = (amount: string) => {
         if (typeof window !== 'undefined' && (window as any).gtag) {
-            (window as any).gtag('event', 'coffee_click', { event_name: 'coffee_click' });
+            (window as any).gtag('event', 'coffee_click', {
+                event_name: 'coffee_click',
+                amount: amount,
+                placement: 'blog_post'
+            });
         }
     }
 
@@ -36,7 +40,7 @@ export function CoffeeDonation() {
                         href={`${paypalMe}/${item.value}usd`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={handleDonationClick}
+                        onClick={() => handleDonationClick(item.value)}
                         className="coffee-btn"
                     >
                         {item.label}
@@ -46,7 +50,7 @@ export function CoffeeDonation() {
                     href={paypalMe}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={handleDonationClick}
+                    onClick={() => handleDonationClick('custom')}
                     className="coffee-btn"
                 >
                     Custom

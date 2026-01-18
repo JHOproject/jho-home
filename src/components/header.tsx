@@ -49,7 +49,10 @@ export function Header() {
                                         rel="noopener noreferrer"
                                         onClick={() => {
                                             if (typeof window !== 'undefined' && (window as any).gtag) {
-                                                (window as any).gtag('event', 'coffee_click', { event_name: 'coffee_click' });
+                                                (window as any).gtag('event', 'coffee_click', {
+                                                    event_name: 'coffee_click',
+                                                    placement: 'header'
+                                                });
                                             }
                                         }}
                                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -107,7 +110,10 @@ export function Header() {
                                         rel="noopener noreferrer"
                                         onClick={() => {
                                             if (typeof window !== 'undefined' && (window as any).gtag) {
-                                                (window as any).gtag('event', 'coffee_click', { event_name: 'coffee_click' });
+                                                (window as any).gtag('event', 'coffee_click', {
+                                                    event_name: 'coffee_click',
+                                                    placement: 'header'
+                                                });
                                             }
                                             setIsMenuOpen(false);
                                         }}

@@ -39,7 +39,9 @@ export const metadata: Metadata = {
 };
 
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { ChatbotWidget } from "@/components/chatbot-widget";
+import { GoogleAnalytics } from "@/components/google-analytics";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -59,12 +61,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <main className="min-h-screen bg-background">
-            {children}
-          </main>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1 bg-background">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </ThemeProvider>
         <ChatbotWidget />
+        <GoogleAnalytics />
       </body>
     </html>
   );
