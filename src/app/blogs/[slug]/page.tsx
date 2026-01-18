@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown"
 import { getPosts, getPostBySlug } from "@/lib/notion"
 import { ChevronLeft } from "lucide-react"
 import Link from "next/link"
+import { CoffeeDonation } from "@/components/coffee-donation"
 
 interface PostPageProps {
     params: Promise<{
@@ -104,6 +105,8 @@ This text should be high contrast and easy to read.
                 leading-relaxed">
                     <ReactMarkdown>{previewContent}</ReactMarkdown>
                 </div>
+
+                <CoffeeDonation />
             </article>
         )
     }
@@ -143,6 +146,8 @@ This text should be high contrast and easy to read.
                 leading-relaxed">
                 <ReactMarkdown>{post.content || ""}</ReactMarkdown>
             </div>
+
+            <CoffeeDonation />
         </article>
     )
 }

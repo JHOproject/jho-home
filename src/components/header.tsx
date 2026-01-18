@@ -24,6 +24,7 @@ export function Header() {
     const navItems = [
         { name: "Projects", href: "/projects" },
         { name: "Blogs", href: "/blogs" },
+        { name: "Buy me a coffee", href: "https://www.paypal.me/HOYUCHI762", isExternal: true },
     ]
 
     return (
@@ -38,6 +39,26 @@ export function Header() {
                     <nav className="hidden md:flex gap-6">
                         {navItems.map((item) => {
                             const isActive = pathname?.startsWith(item.href)
+
+                            if (item.isExternal) {
+                                return (
+                                    <a
+                                        key={item.href}
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={() => {
+                                            if (typeof window !== 'undefined' && (window as any).gtag) {
+                                                (window as any).gtag('event', 'coffee_click', { event_name: 'coffee_click' });
+                                            }
+                                        }}
+                                        className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                        {item.name}
+                                    </a>
+                                )
+                            }
+
                             return (
                                 <Link
                                     key={item.href}
@@ -76,6 +97,27 @@ export function Header() {
                     <nav className="flex flex-col gap-6 text-2xl font-medium">
                         {navItems.map((item) => {
                             const isActive = pathname?.startsWith(item.href)
+
+                            if (item.isExternal) {
+                                return (
+                                    <a
+                                        key={item.href}
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={() => {
+                                            if (typeof window !== 'undefined' && (window as any).gtag) {
+                                                (window as any).gtag('event', 'coffee_click', { event_name: 'coffee_click' });
+                                            }
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className="flex items-center py-2 text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                        {item.name}
+                                    </a>
+                                )
+                            }
+
                             return (
                                 <Link
                                     key={item.href}
