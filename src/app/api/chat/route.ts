@@ -3,6 +3,9 @@ import { CHATBOT_CONFIG } from '@/lib/chatbot-config'
 
 export async function POST(req: Request) {
     try {
+        if (!CHATBOT_CONFIG.IS_ENABLED) {
+            return Response.json({ error: 'Chatbot is currently disabled' }, { status: 403 })
+        }
         const { messages } = await req.json()
 
         // 1. Basic Request Validation

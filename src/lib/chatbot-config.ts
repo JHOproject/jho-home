@@ -1,4 +1,6 @@
 export const CHATBOT_CONFIG = {
+   // Global Toggle
+   IS_ENABLED: process.env.NEXT_PUBLIC_CHATBOT_ENABLED === 'true',
    // Rate limiting
    MAX_MESSAGES_PER_DAY: 5,
    STORAGE_KEY_PREFIX: 'chatbot_usage_',

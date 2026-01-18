@@ -119,6 +119,8 @@ export function ChatbotWidget() {
         }
     }
 
+    if (!CHATBOT_CONFIG.IS_ENABLED) return null
+
     return (
         <>
             {/* Floating Button */}
