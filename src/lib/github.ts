@@ -8,10 +8,16 @@ export interface Repo {
     updated_at: string
 }
 
+const FEATURED_REPOS = [
+    "apple-music-controller",
+    "Shozzle",
+    "html-project-kerry"
+]
+
 export async function getRepos(): Promise<Repo[]> {
     try {
         const res = await fetch(
-            "https://api.github.com/users/JHOproject/repos?sort=updated&per_page=6&direction=desc",
+            "https://api.github.com/users/JHOproject/repos?sort=updated&per_page=100&direction=desc",
             {
                 next: { revalidate: 3600 },
                 headers: {
@@ -25,10 +31,17 @@ export async function getRepos(): Promise<Repo[]> {
             return []
         }
 
-        const repos: Repo[] = await res.json()
-        // Sort by updated_at just in case API didn't sort perfectly or to ensure consistency
-        // API logic: sort=updated direction=desc usually works.
-        return repos
+        const allRepos: Repo[] = await res.json()
+
+        // Filter for specific featured repositories
+        const featuredRepos = allRepos.filter(repo =>
+            FEATURED_REPOS.includes(repo.name)
+        )
+
+        // Sort them according to the order in FEATURED_REPOS
+        return featuredRepos.sort((a, b) => {
+            return FEATURED_REPOS.indexOf(a.name) - FEATURED_REPOS.indexOf(b.name)
+        })
     } catch (error) {
         console.error("Error fetching repos:", error)
         return []
