@@ -95,54 +95,55 @@ export function Header() {
             </div>
 
             {/* Mobile Menu Overlay */}
-            {isMenuOpen && (
-                <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-md pt-24 px-6 md:hidden animate-fade-in">
-                    <nav className="flex flex-col gap-6 text-2xl font-medium">
-                        {navItems.map((item) => {
-                            const isActive = pathname?.startsWith(item.href)
+            <div className={cn(
+                "fixed inset-0 z-40 bg-background pt-24 px-6 md:hidden transition-all duration-300 ease-in-out",
+                isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+            )}>
+                <nav className="flex flex-col gap-6 text-2xl font-medium">
+                    {navItems.map((item) => {
+                        const isActive = pathname?.startsWith(item.href)
 
-                            if (item.isExternal) {
-                                return (
-                                    <a
-                                        key={item.href}
-                                        href={item.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={() => {
-                                            if (typeof window !== 'undefined' && (window as any).gtag) {
-                                                (window as any).gtag('event', 'coffee_click', {
-                                                    event_name: 'coffee_click',
-                                                    placement: 'header'
-                                                });
-                                            }
-                                            setIsMenuOpen(false);
-                                        }}
-                                        className="flex items-center py-2 text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        {item.name}
-                                    </a>
-                                )
-                            }
-
+                        if (item.isExternal) {
                             return (
-                                <Link
+                                <a
                                     key={item.href}
                                     href={item.href}
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className={cn(
-                                        "flex items-center py-2 transition-colors",
-                                        isActive
-                                            ? "text-foreground"
-                                            : "text-muted-foreground hover:text-foreground"
-                                    )}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => {
+                                        if (typeof window !== 'undefined' && (window as any).gtag) {
+                                            (window as any).gtag('event', 'coffee_click', {
+                                                event_name: 'coffee_click',
+                                                placement: 'header'
+                                            });
+                                        }
+                                        setIsMenuOpen(false);
+                                    }}
+                                    className="flex items-center py-2 text-muted-foreground hover:text-foreground transition-colors"
                                 >
                                     {item.name}
-                                </Link>
+                                </a>
                             )
-                        })}
-                    </nav>
-                </div>
-            )}
+                        }
+
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setIsMenuOpen(false)}
+                                className={cn(
+                                    "flex items-center py-2 transition-colors",
+                                    isActive
+                                        ? "text-foreground"
+                                        : "text-muted-foreground hover:text-foreground"
+                                )}
+                            >
+                                {item.name}
+                            </Link>
+                        )
+                    })}
+                </nav>
+            </div>
         </header>
     )
 }
