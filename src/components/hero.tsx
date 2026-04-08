@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Github, Linkedin } from "lucide-react"
 import { useState, useEffect } from "react"
+import { useTranslation } from "./i18n-provider"
 
 const MediumIcon = ({ className }: { className?: string }) => (
     <svg
@@ -20,6 +21,7 @@ const MediumIcon = ({ className }: { className?: string }) => (
 export function Hero() {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
     const [isHovering, setIsHovering] = useState(false)
+    const { t } = useTranslation()
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -73,20 +75,25 @@ export function Hero() {
                     </div>
 
                     <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
-                        Software <br className="hidden sm:block" />
-                        Engineer.
+                        {t("hero.title_1")} <br className="hidden sm:block" />
+                        {t("hero.title_2")}
                     </h1>
 
-                    <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed">
-                        Serious about my work, playful about  <span className="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">life—always growing</span>, always choosing, always present.
-                    </p>
+                    <p className="max-w-[600px] text-lg text-muted-foreground sm:text-xl md:text-2xl font-light leading-relaxed"
+                        dangerouslySetInnerHTML={{
+                            __html: t("hero.subtitle").replace(
+                                "<highlight>",
+                                '<span class="bg-yellow-100 dark:bg-yellow-500/20 px-1 rounded-sm text-foreground">'
+                            ).replace("</highlight>", "</span>")
+                        }}
+                    />
 
                     <div className="flex flex-wrap gap-4 pt-4 justify-center items-center">
                         <Link
                             href="/projects"
                             className="group inline-flex h-12 items-center justify-center rounded-full bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                         >
-                            View Projects
+                            {t("hero.view_projects")}
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </Link>
 

@@ -1,5 +1,6 @@
 import { getRepos } from "@/lib/github"
 import { ProjectCard } from "@/components/project-card"
+import { ClientTranslate } from "@/components/client-translate"
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -9,9 +10,9 @@ export default async function ProjectsPage() {
     return (
         <div className="container mx-auto px-6 py-32 max-w-4xl">
             <div className="mb-16 space-y-4 animate-fade-in-up">
-                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">Projects</h1>
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl"><ClientTranslate translationKey="projects.title" /></h1>
                 <p className="text-xl text-muted-foreground max-w-2xl">
-                    A collection of open source repositories and experiments.
+                    <ClientTranslate translationKey="projects.subtitle" />
                 </p>
             </div>
 

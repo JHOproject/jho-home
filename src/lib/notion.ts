@@ -8,6 +8,7 @@ export interface Post {
     date: string
     description: string
     content?: string // Markdown content
+    language?: string
 }
 
 const notion = new Client({
@@ -52,6 +53,7 @@ export async function getPosts(): Promise<Post[]> {
                 const slug = props.Slug?.rich_text?.[0]?.plain_text || page.id
                 const date = props.Date?.date?.start || new Date().toISOString()
                 const description = props.Description?.rich_text?.[0]?.plain_text || ""
+                const language = props.Language?.select?.name
 
                 return {
                     id: page.id,
@@ -59,7 +61,8 @@ export async function getPosts(): Promise<Post[]> {
                     slug,
                     date,
                     description,
-                }
+                    language,
+                } as Post
             })
             .filter((post): post is Post => post !== null)
 
@@ -90,4 +93,30 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
         console.error("Error fetching post content:", error)
         return null
     }
+}
+
+export async function getPostVersionsBySlug(slug: string): Promise<Post[]> {
+    const posts = await getPosts()
+    const matchingPosts = posts.filter((p) => p.slug === slug)
+
+    if (!matchingPosts || matchingPosts.length === 0) {
+        return []
+    }
+
+    const versions = await Promise.all(matchingPosts.map(async (post) => {
+        try {
+            const mdblocks = await n2m.pageToMarkdown(post.id)
+            const mdString = n2m.toMarkdownString(mdblocks)
+
+            return {
+                ...post,
+                content: mdString.parent,
+            }
+        } catch (error) {
+            console.error("Error fetching post content for id", post.id, error)
+            return post
+        }
+    }))
+
+    return versions
 }

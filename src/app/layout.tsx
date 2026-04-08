@@ -44,6 +44,7 @@ import { ChatbotWidget } from "@/components/chatbot-widget";
 import { GoogleAnalytics } from "@/components/google-analytics";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { I18nProvider } from "@/components/i18n-provider";
 
 export default function RootLayout({
   children,
@@ -55,22 +56,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1 bg-background">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ThemeProvider>
-        <ChatbotWidget />
-        <GoogleAnalytics />
+        <I18nProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-1 bg-background">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </ThemeProvider>
+          <ChatbotWidget />
+          <GoogleAnalytics />
+        </I18nProvider>
       </body>
     </html>
   );

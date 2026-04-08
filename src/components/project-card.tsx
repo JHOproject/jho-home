@@ -1,10 +1,15 @@
+"use client"
+
 import { Repo } from "@/lib/github"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { Badge } from "./ui/badge"
 import { Star, Calendar } from "lucide-react"
 import Link from "next/link"
+import { useTranslation } from "./i18n-provider"
 
 export function ProjectCard({ repo }: { repo: Repo }) {
+    const { t } = useTranslation()
+
     return (
         <Link href={repo.html_url} target="_blank" className="block h-full group">
             <div className="h-full flex flex-col p-6 rounded-lg bg-secondary/20 hover:bg-secondary/40 transition-colors duration-300">
@@ -16,7 +21,7 @@ export function ProjectCard({ repo }: { repo: Repo }) {
                     </div>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">
-                    {repo.description || "No description provided."}
+                    {repo.description || t("projects.no_desc")}
                 </p>
                 <div className="mt-auto flex items-center justify-between text-xs text-muted-foreground">
                     {repo.language && (

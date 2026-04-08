@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "projects": "專案",
+    "blogs": "文章",
+    "coffee": "請我喝杯咖啡"
+  },
+  "hero": {
+    "title_1": "Software",
+    "title_2": "Engineer.",
+    "subtitle": "對工作認真，對<highlight>生活充滿熱忱 —— 喜歡不斷成長</highlight>、<br/>不斷選擇、活在當下。",
+    "view_projects": "探索專案 / 作品"
+  },
+  "about": {
+    "title": "關於我",
+    "description": "我是一位熱愛現代化網站技術的軟體工程師。我喜歡設計簡潔的程式碼與快速的使用者體驗。不寫程式的時候，我喜歡研究新工具或是貢獻開源專案。"
+  },
+  "projects": {
+    "title": "專案",
+    "subtitle": "一系列動手做做看的作品。",
+    "no_desc": "無提供專案描述。"
+  },
+  "blogs": {
+    "title": "記錄文章",
+    "subtitle": "關於軟體工程、設計與產品開發的心得",
+    "back": "返回文章列表",
+    "terminal_log": "console.log(status)",
+    "terminal_fetch": "➜  ~ fetch/posts",
+    "terminal_loading": "正在載入特定知識...",
+    "terminal_warn": "[WARN] 資料庫中找不到公開的紀錄。",
+    "terminal_italic": "可能正在忙著寫下一個大作。",
+    "terminal_small": "請稍後再回來查看更新。"
+  },
+  "chatbot": {
+    "greeting": "嗨！我是來幫你了解 Jessie 技能和經驗的 AI。你有什麼想知道的嗎？✨",
+    "error_network": "哎呀！連線錯誤，請檢查你的網路！😅",
+    "error_server": "哎呀！伺服器回傳了無效的格式，請稍後再試！😅",
+    "error_generic": "哎呀！發生了一點小錯誤。😅",
+    "title": "詢問關於 Jessie",
+    "chats_left": "次對話額度 ⚡",
+    "chat_left": "次對話額度 ⚡",
+    "resets_in": "重置時間：",
+    "daily_limit": "今日額度已用完。重置時間：",
+    "placeholder": "隨便問我任何事情...",
+    "tooltip_email": "寄送 Email",
+    "tooltip_close": "關閉聊天",
+    "tooltip_send": "送出訊息",
+    "tooltip_open": "開啟聊天"
+  },
+  "footer": {
+    "rights": "Jessie Ho. 保留所有權利。",
+    "privacy": "隱私權政策"
+  }
+}

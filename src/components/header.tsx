@@ -4,12 +4,16 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeToggle } from "./theme-toggle"
+import { useTranslation, Locale } from "./i18n-provider"
+import { Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Menu, X } from "lucide-react"
 
 export function Header() {
     const pathname = usePathname()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+    const { t, locale, switchLocale } = useTranslation()
 
     // Prevent scrolling when menu is open
     useEffect(() => {
@@ -22,9 +26,9 @@ export function Header() {
     }, [isMenuOpen])
 
     const navItems = [
-        { name: "Projects", href: "/projects" },
-        { name: "Blogs", href: "/blogs" },
-        { name: "Buy me a coffee", href: "https://www.paypal.me/HOYUCHI762", isExternal: true },
+        { name: t("nav.projects"), href: "/projects" },
+        { name: t("nav.blogs"), href: "/blogs" },
+        { name: t("nav.coffee"), href: "https://www.paypal.me/HOYUCHI762", isExternal: true },
     ]
 
     return (
@@ -81,7 +85,16 @@ export function Header() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <ThemeToggle />
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => switchLocale(locale === "en" ? "zh-TW" : "en")}
+                            className="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-9 w-9 text-muted-foreground"
+                            aria-label="Toggle language"
+                        >
+                            <Globe size={20} />
+                        </button>
+                        <ThemeToggle />
+                    </div>
 
                     {/* Mobile Menu Toggle */}
                     <button

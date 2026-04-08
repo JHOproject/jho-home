@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "blogs": "Blogs",
+    "coffee": "Buy me a coffee"
+  },
+  "hero": {
+    "title_1": "Software",
+    "title_2": "Engineer.",
+    "subtitle": "Serious about my work, playful about <highlight>life—always growing</highlight>, always choosing, always present.",
+    "view_projects": "View Projects"
+  },
+  "about": {
+    "title": "About Me",
+    "description": "I am a passionate software engineer with a focus on modern web technologies. I love simpler code, cleaner designs, and faster load times. When I'm not coding, I'm likely exploring new tools or contributing to open source."
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "A collection of open source repositories and experiments.",
+    "no_desc": "No description provided."
+  },
+  "blogs": {
+    "title": "Writing",
+    "subtitle": "Thoughts on software engineering, design, and building products.",
+    "back": "Back to blogs",
+    "terminal_log": "console.log(status)",
+    "terminal_fetch": "➜  ~ fetch/posts",
+    "terminal_loading": "Loading specific knowledge...",
+    "terminal_warn": "[WARN] No public logs found in database.",
+    "terminal_italic": "Probably busy coding the next big thing.",
+    "terminal_small": "Check back later for updates."
+  },
+  "chatbot": {
+    "greeting": "Hi! I'm here to help you learn about Jessie's skills and experience. What would you like to know? ✨",
+    "error_network": "Oops! Connection error. Please check your network! 😅",
+    "error_server": "Oops! The server returned an invalid response. Please try again later! 😅",
+    "error_generic": "Oops! Something went wrong. 😅",
+    "title": "Ask about Jessie",
+    "chats_left": "chats left today ⚡",
+    "chat_left": "chat left today ⚡",
+    "resets_in": "Resets in",
+    "daily_limit": "Daily limit reached. Resets in",
+    "placeholder": "Ask me anything...",
+    "tooltip_email": "Send Email",
+    "tooltip_close": "Close chat",
+    "tooltip_send": "Send message",
+    "tooltip_open": "Open chat"
+  },
+  "footer": {
+    "rights": "Jessie Ho. All rights reserved.",
+    "privacy": "Privacy Policy"
+  }
+}

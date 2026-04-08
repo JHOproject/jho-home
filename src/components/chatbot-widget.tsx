@@ -5,17 +5,24 @@ import { MessageCircle, X, Send, Loader2, Mail } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { ChatMessage, CHATBOT_CONFIG } from '@/lib/chatbot-config'
 import { getRemainingMessages, incrementUsage, canSendMessage, getResetTimeString } from '@/lib/rate-limiter'
+import { useTranslation } from './i18n-provider'
 
 export function ChatbotWidget() {
+    const { t } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
-    const [messages, setMessages] = useState<ChatMessage[]>([
-        {
-            id: '1',
-            role: 'assistant',
-            content: "Hi! I'm here to help you learn about Jessie's skills and experience. What would you like to know? ✨",
-            timestamp: Date.now(),
-        }
-    ])
+    const [messages, setMessages] = useState<ChatMessage[]>([])
+    
+    // Initialize the first message with the translated greeting
+    useEffect(() => {
+        setMessages([
+            {
+                id: '1',
+                role: 'assistant',
+                content: t("chatbot.greeting"),
+                timestamp: Date.now(),
+            }
+        ])
+    }, [t])
     const [input, setInput] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [remaining, setRemaining] = useState<number>(CHATBOT_CONFIG.MAX_MESSAGES_PER_DAY)
@@ -80,7 +87,7 @@ export function ChatbotWidget() {
                 const assistantMessage: ChatMessage = {
                     id: (Date.now() + 1).toString(),
                     role: 'assistant',
-                    content: "Oops! The server returned an invalid response. Please try again later! 😅",
+                    content: t("chatbot.error_server"),
                     timestamp: Date.now(),
                 }
                 setMessages(prev => [...prev, assistantMessage])
@@ -93,7 +100,7 @@ export function ChatbotWidget() {
                 const assistantMessage: ChatMessage = {
                     id: (Date.now() + 1).toString(),
                     role: 'assistant',
-                    content: `Oops! ${data.error || 'Something went wrong.'} 😅`,
+                    content: `${t("chatbot.error_generic")} ${data.error || ""}`,
                     timestamp: Date.now(),
                 }
                 setMessages(prev => [...prev, assistantMessage])
@@ -114,7 +121,7 @@ export function ChatbotWidget() {
             const errorMessage: ChatMessage = {
                 id: (Date.now() + 1).toString(),
                 role: 'assistant',
-                content: "Oops! Connection error. Please check your network! 😅",
+                content: t("chatbot.error_network"),
                 timestamp: Date.now(),
             }
             setMessages(prev => [...prev, errorMessage])
@@ -139,7 +146,7 @@ export function ChatbotWidget() {
                 <button
                     onClick={() => setIsOpen(true)}
                     className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg transition-all hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    aria-label="Open chat"
+                    aria-label={t("chatbot.tooltip_open")}
                 >
                     <MessageCircle className="h-6 w-6 mx-auto" />
                 </button>
@@ -155,11 +162,11 @@ export function ChatbotWidget() {
                                 <MessageCircle className="h-5 w-5 text-primary" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-sm">Ask about Jessie</h3>
+                                <h3 className="font-semibold text-sm">{t("chatbot.title")}</h3>
                                 <p className="text-xs text-muted-foreground">
                                     {remaining > 0
-                                        ? `${remaining} chat${remaining !== 1 ? 's' : ''} left today ⚡`
-                                        : `Resets in ${getResetTimeString()}`
+                                        ? `${remaining} ${remaining !== 1 ? t("chatbot.chats_left") : t("chatbot.chat_left")}`
+                                        : `${t("chatbot.resets_in")} ${getResetTimeString()}`
                                     }
                                 </p>
                             </div>
@@ -168,14 +175,14 @@ export function ChatbotWidget() {
                             <a
                                 href="mailto:jessieho1822@gmail.com"
                                 className="h-8 w-8 rounded-full hover:bg-muted transition-colors flex items-center justify-center text-muted-foreground hover:text-primary"
-                                title="Send Email"
+                                title={t("chatbot.tooltip_email")}
                             >
                                 <Mail className="h-4 w-4" />
                             </a>
                             <button
                                 onClick={() => setIsOpen(false)}
                                 className="h-8 w-8 rounded-full hover:bg-muted transition-colors flex items-center justify-center"
-                                aria-label="Close chat"
+                                aria-label={t("chatbot.tooltip_close")}
                             >
                                 <X className="h-4 w-4" />
                             </button>
@@ -231,7 +238,7 @@ export function ChatbotWidget() {
                                         value={input}
                                         onChange={(e) => setInput(e.target.value)}
                                         onKeyPress={handleKeyPress}
-                                        placeholder="Ask me anything..."
+                                        placeholder={t("chatbot.placeholder")}
                                         disabled={isLoading}
                                         className={`flex-1 px-4 py-2 text-sm bg-muted border rounded-lg focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50 ${input.length > 50 ? 'border-destructive focus:ring-destructive text-destructive' : 'border-border'
                                             }`}
@@ -244,7 +251,7 @@ export function ChatbotWidget() {
                                     onClick={handleSend}
                                     disabled={!input.trim() || isLoading || input.length > 50}
                                     className="h-10 w-10 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center shrink-0"
-                                    aria-label="Send message"
+                                    aria-label={t("chatbot.tooltip_send")}
                                 >
                                     <Send className="h-4 w-4" />
                                 </button>
@@ -252,7 +259,7 @@ export function ChatbotWidget() {
                         ) : (
                             <div className="text-center py-2">
                                 <p className="text-sm text-muted-foreground">
-                                    Daily limit reached. Resets in {getResetTimeString()}.
+                                    {t("chatbot.daily_limit")} {getResetTimeString()}.
                                 </p>
                             </div>
                         )}
