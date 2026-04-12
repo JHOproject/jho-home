@@ -17,6 +17,19 @@ const notion = new Client({
 
 const n2m = new NotionToMarkdown({ notionClient: notion })
 
+n2m.setCustomTransformer("column_list", async (block) => {
+    const { id } = block as any;
+    const children = await n2m.pageToMarkdown(id);
+    const htmlChildren = n2m.toMarkdownString(children);
+    return `<div class="notion-column-list flex flex-col md:flex-row gap-6 w-full my-4">\n${htmlChildren.parent || ""}\n</div>`;
+});
+
+n2m.setCustomTransformer("column", async (block) => {
+    const { id } = block as any;
+    const children = await n2m.pageToMarkdown(id);
+    const htmlChildren = n2m.toMarkdownString(children);
+    return `<div class="notion-column flex-1 w-full min-w-0">\n${htmlChildren.parent || ""}\n</div>`;
+});
 export async function getPosts(): Promise<Post[]> {
     if (!process.env.NOTION_TOKEN || !process.env.NOTION_DATABASE_ID) {
         console.warn("Missing NOTION_TOKEN or NOTION_DATABASE_ID")

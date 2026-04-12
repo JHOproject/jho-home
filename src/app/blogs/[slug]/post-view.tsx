@@ -5,6 +5,7 @@ import Link from "next/link"
 import { CoffeeDonation } from "@/components/coffee-donation"
 import { useTranslation } from "@/components/i18n-provider"
 import { Post } from "@/lib/notion"
+import rehypeRaw from "rehype-raw"
 
 export function PostView({ postVersions, slug }: { postVersions: Post[], slug: string }) {
     const { t, locale } = useTranslation()
@@ -54,7 +55,7 @@ This text should be high contrast and easy to read.
                 prose-headings:font-bold prose-headings:tracking-tight 
                 prose-a:font-medium prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary 
                 leading-relaxed">
-                    <ReactMarkdown>{previewContent}</ReactMarkdown>
+                    <ReactMarkdown rehypePlugins={[rehypeRaw]}>{previewContent}</ReactMarkdown>
                 </div>
 
                 <CoffeeDonation />
@@ -92,7 +93,7 @@ This text should be high contrast and easy to read.
                 prose-headings:font-bold prose-headings:tracking-tight 
                 prose-a:font-medium prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-primary 
                 leading-relaxed">
-                <ReactMarkdown>{post.content || ""}</ReactMarkdown>
+                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{post.content || ""}</ReactMarkdown>
             </div>
 
             <CoffeeDonation />
