@@ -1,5 +1,8 @@
 import { Client } from "@notionhq/client"
 import { NotionToMarkdown } from "notion-to-md"
+import fs from "fs/promises"
+import path from "path"
+import sharp from "sharp"
 
 export interface Post {
     id: string
@@ -29,6 +32,56 @@ n2m.setCustomTransformer("column", async (block) => {
     const children = await n2m.pageToMarkdown(id);
     const htmlChildren = n2m.toMarkdownString(children);
     return `<div class="notion-column flex-1 w-full min-w-0">\n${htmlChildren.parent || ""}\n</div>`;
+});
+
+n2m.setCustomTransformer("image", async (block) => {
+    const { image, id } = block as any;
+    const type = image.type;
+    const url = type === "file" ? image.file.url : image.external.url;
+    const caption = image.caption?.[0]?.plain_text || "";
+
+    if (type === "file") {
+        try {
+            const fileName = `${id}.webp`;
+            const publicDir = path.join(process.cwd(), "public", "notion-images");
+            const filePath = path.join(publicDir, fileName);
+            
+            // 1. Caching Check
+            try {
+                await fs.access(filePath);
+                // If it exists, skip download
+                return `![${caption}](/jho-home/notion-images/${fileName})`;
+            } catch {
+                // File does not exist, proceed
+            }
+
+            await fs.mkdir(publicDir, { recursive: true });
+            
+            // 2. Download the file
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`Failed to fetch image: ${res.statusText}`);
+            const arrayBuffer = await res.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+
+            // 3. Optimize using Sharp
+            const optimizedBuffer = await sharp(buffer)
+                .resize({ width: 1200, withoutEnlargement: true })
+                .webp({ quality: 80 })
+                .toBuffer();
+
+            // 4. Save to cache
+            await fs.writeFile(filePath, optimizedBuffer);
+            
+            // Prefixing with the basePath for GitHub pages
+            return `![${caption}](/jho-home/notion-images/${fileName})`;
+        } catch (error) {
+            console.error("Error downloading image:", error);
+            // Fallback to original URL if download fails
+            return `![${caption}](${url})`;
+        }
+    }
+    
+    return `![${caption}](${url})`;
 });
 export async function getPosts(): Promise<Post[]> {
     if (!process.env.NOTION_TOKEN || !process.env.NOTION_DATABASE_ID) {
