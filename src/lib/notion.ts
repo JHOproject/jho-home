@@ -151,9 +151,21 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
         const mdblocks = await n2m.pageToMarkdown(post.id)
         const mdString = n2m.toMarkdownString(mdblocks)
 
+        let content = mdString.parent || ""
+        
+        // Fix for react-markdown failing to parse bold text with Chinese punctuation or spacing
+        content = content.replace(/\*\*([\s\S]*?)\*\*/g, (match, inner) => {
+            let newInner = inner.trim()
+            const punctMatch = newInner.match(/^(.*?)([，。？！；：、]+)$/)
+            if (punctMatch) {
+                return `**${punctMatch[1]}**${punctMatch[2]}`
+            }
+            return `**${newInner}**`
+        })
+
         return {
             ...post,
-            content: mdString.parent,
+            content,
         }
     } catch (error) {
         console.error("Error fetching post content:", error)
@@ -174,9 +186,21 @@ export async function getPostVersionsBySlug(slug: string): Promise<Post[]> {
             const mdblocks = await n2m.pageToMarkdown(post.id)
             const mdString = n2m.toMarkdownString(mdblocks)
 
+            let content = mdString.parent || ""
+            
+            // Fix for react-markdown failing to parse bold text with Chinese punctuation or spacing
+            content = content.replace(/\*\*([\s\S]*?)\*\*/g, (match, inner) => {
+                let newInner = inner.trim()
+                const punctMatch = newInner.match(/^(.*?)([，。？！；：、]+)$/)
+                if (punctMatch) {
+                    return `**${punctMatch[1]}**${punctMatch[2]}`
+                }
+                return `**${newInner}**`
+            })
+
             return {
                 ...post,
-                content: mdString.parent,
+                content,
             }
         } catch (error) {
             console.error("Error fetching post content for id", post.id, error)
