@@ -230,3 +230,12 @@ h6 {
 .prose code::after {
   content: none !important;
 }
+
+/* Hide scrollbar visually but maintain scroll access */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

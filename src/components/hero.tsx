@@ -34,7 +34,7 @@ export function Hero() {
 
     return (
         <section
-            className="relative flex min-h-[90vh] flex-col justify-center px-4 pt-20 overflow-hidden"
+            className="relative flex flex-1 w-full flex-col justify-center px-4 pt-20 overflow-hidden"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
         >
